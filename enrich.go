@@ -71,7 +71,7 @@ func generateMd(title string, author string, category string, goodreads string) 
 
 	check(err)
 
-	f.WriteString(fmt.Sprintf("---\ntitle: \"%s\"\nbook_author: [\"%s\"]\nbook_category: [\"%s\"]\nlink: \"%s\"\n---\n", title, author, category, goodreads))
+	f.WriteString(fmt.Sprintf("---\ntitle: \"%s\"\nbook_authors: [\"%s\"]\nbook_categories: [\"%s\"]\nlink: \"%s\"\n---\n", title, author, category, goodreads))
 	f.Sync()
 
 	fmt.Printf("Created file: %s.md\n", filename)
