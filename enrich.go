@@ -28,6 +28,7 @@ func main() {
 	category := ""
 	title := ""
 	author := ""
+	goodreads := ""
 
 	for scanner.Scan() {
 
@@ -46,6 +47,7 @@ func main() {
 			title = parts[0]
 			title = authorRegex.ReplaceAllString(title, "")
 
+			goodreads = fmt.Sprintf("https://www.goodreads.com/search?q=%s+%s", strings.Replace(title, " ", "+", -1), strings.Replace(author, " ", "+", -1))
 		}
 
 		if !isBook && !isCat {
@@ -53,13 +55,13 @@ func main() {
 		}
 
 		if isBook {
-			generateMd(title, author, category)
+			generateMd(title, author, category, goodreads)
 		}
 
 	}
 }
 
-func generateMd(title string, author string, category string) {
+func generateMd(title string, author string, category string, goodreads string) {
 
 	filename := strings.ToLower(title)
 	filename = strings.Replace(filename, " ", "-", -1)
@@ -69,7 +71,7 @@ func generateMd(title string, author string, category string) {
 
 	check(err)
 
-	f.WriteString(fmt.Sprintf("---\ntitle: \"%s\"\nbook_author: [\"%s\"]\nbook_category: [\"%s\"]\n---\n", title, author, category))
+	f.WriteString(fmt.Sprintf("---\ntitle: \"%s\"\nbook_author: [\"%s\"]\nbook_category: [\"%s\"]\nlink: \"%s\"\n---\n", title, author, category, goodreads))
 	f.Sync()
 
 	fmt.Printf("Created file: %s.md\n", filename)
